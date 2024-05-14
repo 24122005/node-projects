@@ -3,7 +3,9 @@ const http = require("http")
 const port = 8080
 
 const handleRequest = (req, res)=>{
-    res.write("<h1>Hello, Node!!</h1>")
+    res.write("<h1>Name: Pranav Rupareliya</h1>")
+    res.write("<h2>Email: rupareliyapranav75@gmail.com</h2>")
+    res.write("<h3>Age : 20</h3>")
     res.end()
 }
 
