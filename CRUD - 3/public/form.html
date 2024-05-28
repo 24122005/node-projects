@@ -1,0 +1,51 @@
+<!-- public/form.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Data Form</title>
+</head>
+<body>
+    <h1>Sample Form</h1>
+    <form action="/submit" method="post">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br><br>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br><br>
+        <button type="submit">Submit</button>
+    </form>
+
+
+    <h2>Existing Records</h2>
+    <ul id="recordList"></ul>
+
+    <script>
+        fetch('/records')
+            .then(response => response.json())
+            .then(records => {
+                const recordList = document.getElementById('recordList');
+                records.forEach(record => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = `Name: ${record.name}, Email: ${record.email}`;
+                    const deleteButton = document.createElement('button');
+                    deleteButton.textContent = 'Delete';
+                    deleteButton.addEventListener('click', () => deleteRecord(record._id));
+                    listItem.appendChild(deleteButton);
+                    recordList.appendChild(listItem);
+                });
+            });
+
+        function deleteRecord(recordId) {
+            fetch(`/delete/${recordId}`, {
+                method: 'DELETE'
+            })
+            .then(() => {
+                
+                location.reload();
+            })
+            .catch(error => console.error('Error deleting record:', error));
+        }
+    </script>
+</body>
+</html>
